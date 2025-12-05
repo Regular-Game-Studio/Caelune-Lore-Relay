@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder, type InteractionDeferReplyOptions } from "discord.js";
 
 export default {
     data: new SlashCommandBuilder()
@@ -6,6 +6,15 @@ export default {
         .setDescription("Tests the bot's latency with discord servers"),
 
     async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-        await interaction.reply("Pong!");
+        const sent = Date.now();
+
+        const options: InteractionDeferReplyOptions = {withResponse: true}
+        await interaction.deferReply();
+
+        const roundTrip = Date.now() - interaction.createdTimestamp;
+
+        await interaction.editReply(
+            `Pong!\n Gateway: ${interaction.client.ws.ping}ms\n Round trip: ${roundTrip}ms`
+        )
     }
 }
