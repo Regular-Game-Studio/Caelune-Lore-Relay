@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder, type InteractionDeferReplyOptions } from "discord.js";
 
 export default {
+    cooldown: 5,
     data: new SlashCommandBuilder()
         .setName("ping")
         .setDescription("Tests the bot's latency with discord servers"),
