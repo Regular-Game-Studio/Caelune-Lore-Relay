@@ -1,5 +1,4 @@
 import { REST, Routes } from 'discord.js'
-import dotenv from 'dotenv'
 import fs from 'fs'
 import { pathToFileURL, fileURLToPath } from 'url'
 import path from 'path'
@@ -39,7 +38,7 @@ async function deployCommands(): Promise<void> {
 
     (async () => {
         try {
-            console.log(`Started refreshing ${commands.length} application (/) commands.`);
+            console.log(`[INFO] Started refreshing ${commands.length} application (/) commands.`);
 
             let data: any
             if (<string>process.env.GLOBAL_COMMANDS == "false") {
@@ -48,9 +47,9 @@ async function deployCommands(): Promise<void> {
                 data = await rest.put(Routes.applicationGuildCommands(<string>process.env.CLIENT_ID, <string>process.env.GUILD_ID), { body: commands });
             }
 
-            console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+            console.log(`[INFO] Successfully reloaded ${data.length} application (/) commands.`);
         } catch (error) {
-            console.error(error)
+            console.error(`[ERROR] Failed to load deploy slash commands ${error}`);
         }
     })();
 }
